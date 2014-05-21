@@ -1,7 +1,7 @@
 pyker ![python logo](https://www.python.org/static/community_logos/python-powered-h-50x65.png)
 =====
 
-###### What and Why?
+##### What and Why?
 
 **pyker** is a small video poker implementation written in Python (v3).
 
@@ -9,10 +9,10 @@ I was both bored and interesting in implementing a simple, small game.
 
 ![example gif](http://i.imgur.com/cUe5lsi.gif)
 
-###### Arguments
+##### Arguments
 `-c###` Changes the default cash the player got upon start to ###. (ex.: `python3 pyker.py -c500` for 500$)
 
-###### Default settings hacking
+##### Default settings hacking
 The variables which control the game appearance are round the lines 19 to 28:
 
 `cash` contains the default cash, may be overwritten with `-c`
@@ -34,7 +34,7 @@ The variables which control the game appearance are round the lines 19 to 28:
 `version` the version.
 
 
-###### Function reference
+##### Function reference
 
 `def initCards():` builds up the deck.
 
