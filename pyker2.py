@@ -1,10 +1,9 @@
 '''
 DATE CREATED:  14-05-2014
 DATE FINISHED: 21-05-2014
-CREATOR:       codezeb (digitalforest)
-CONTACT:       dfmogk@gmail.com, @codezeb (Github, Twitter)
-COPYRIGHT:     2014 codezeb (dfmogk@gmail.com)
-LICENSE:       GPLv3 (but I'd love to read about your changes =] )
+CREATOR:       codezeb (Martin Dessauer)
+CONTACT:       dfmogk@gmail.com, @codezeb (Github)
+COPYRIGHT:     2014 codezeb (martin.dessauer@me.com)
 '''
 
 import sys # for sys.argv
@@ -24,7 +23,7 @@ winset    = ["JACKS O/ BETTER","TWO PAIRS","PAIR O' THREE","STRAIGHT","FLUSH","F
 payset    = [1,2,3,4,6,9,25,50,250] # multiplies with bet/minBet 
 betset    = [1,2,5,10,50,100,250] # factor
 charset   = ["A","K","D","B","10","9","8","7","6","5","4","3","2"]
-cardtypes = ["♠","♣","♥","♦"] # 2x black, 2x red
+cardtypes = ["S","C","H","D"] # Spades, Clubs, Hearts, Diamonds
 version   = "1.0b"
 
 # DO NOT TOUCH THESE:
@@ -54,19 +53,19 @@ def gameLoop(): # is called upon start and enters an eternal loop (runs alas per
 	firstRun = True
 	global cash,bet
 
-	print("Pyker v" + version)
+	print "Pyker v" + version
 	sleep(1)
 
 	if(len(winset) != len(payset)):
-		print("Configuration error! (|winSet| != |paySet|)")
+		print "Configuration error! (|winSet| != |paySet|)"
 	if(cash < minBet):
-		print("Configuration error! (cash < minBet)")
+		print "Configuration error! (cash < minBet)"
 		Quit()
 
-	print("\033[2A")
+	print "\033[2A"
 
 	while(not cash<minBet):
-		print("You've got \033[92m" + str(cash) + unit + "\033[0m.")
+		print "You've got \033[92m" + str(cash) + unit + "\033[0m."
 		if(not firstRun):
 			if(choice("Continue with bets?",["Yes","No"]) == "No"):
 				end()
@@ -85,14 +84,14 @@ def gameLoop(): # is called upon start and enters an eternal loop (runs alas per
 
 def winType(wT): # prints out the thing we've won.
 	global cash
-	print("You've got a \033[32m" + winset[wT-1] + "\033[0m! \033[32m+" + str(payset[wT-1]*bet) + unit + "\033[0m")
+	print "You've got a \033[32m" + winset[wT-1] + "\033[0m! \033[32m+" + str(payset[wT-1]*bet) + unit + "\033[0m"
 	cash = cash + payset[wT-1]*bet
 
 
 def analyseCards(randomCards): # analyses the cards the player got
 	cleanCards = [] # stores pure int values w/o card type
 	sameType = False
-	print("\r                                           \r",end="")
+	print "\r                                           \r",
 	for i in range(0,5):
 		cleanCards.append(int(randomCards[i][:2].replace(" ","").replace("B","11").replace("D","12").replace("K","13").replace("A","14")))
 
@@ -119,7 +118,7 @@ def analyseCards(randomCards): # analyses the cards the player got
 	elif((cleanCards[0] + cleanCards[1] >= 22) and (cleanCards[0] == cleanCards[1])) or ((cleanCards[1] + cleanCards[2] >= 22) and (cleanCards[1] == cleanCards[2])) or ((cleanCards[2] + cleanCards[3] >= 22) and (cleanCards[2] == cleanCards[3])) or ((cleanCards[3] + cleanCards[4] >= 22) and (cleanCards[3] == cleanCards[4])):
 		winType(1)  #  jack o better
 	else:
-		print("\033[31mNothing\033[0m. \033[31m-" + str(bet) + unit + "\033[0m")
+		print "\033[31mNothing\033[0m. \033[31m-" + str(bet) + unit + "\033[0m" 
 
 def cards(): # shuffles & presents cards to user
 	tmpCardset = initCards()
@@ -132,28 +131,28 @@ def cards(): # shuffles & presents cards to user
 		shuffle(tmpCardset)
 		index = randint(0,len(tmpCardset)-1)
 		randomCards.append(tmpCardset[index])
-		print(" " + randomCards[i] + "  ",end="")
+		print " " + randomCards[i] + "  ",
 		tmpCardset.remove(tmpCardset[index])
 	
-	print("\n")
+	print "\n"
 	######################
 	while(not dropout):
-		print("\033[1A",end="")
+		print "\033[1A",
 		for i in range(0,5):
 			if(i==selection):
 				if(keep[i]):
-					print("\033[7m[KEEP]\033[0m ",end="")
+					print "\033[7m[KEEP]\033[0m ",
 				else:
-					print("\033[7m[    ]\033[0m ",end="")
+					print"\033[7m[    ]\033[0m ",
 			else:
 				if(keep[i]):
-					print("[KEEP] ",end="")
+					print "[KEEP] ",
 				else:
-					print("[    ] ",end="")
+					print "[    ] ",
 		if(5==selection):
-			print("\033[7m[ACCEPT]\033[0m ")
+			print "\033[7m[ACCEPT]\033[0m "
 		else:
-			print("[ACCEPT]")
+			print "[ACCEPT]"
 
 		key = getch.getch()
 		if(hexlify(bytes(key,"UTF-8")) != bytes("1b","UTF-8")):
@@ -170,30 +169,30 @@ def cards(): # shuffles & presents cards to user
 			elif(key == "C"):
 				if(selection<5):
 					selection = selection + 1
-	print("\033[3A")
+	print "\033[3A"
 	for i in range(0,5):
 		shuffle(tmpCardset)
 		if(keep[i]):
-			print(" " + randomCards[i] + "  ",end="")
+			print " " + randomCards[i] + "  ",
 		else:
 			index = randint(0,len(tmpCardset)-1)
 			randomCards[i] = tmpCardset[index]
-			print(" " + randomCards[i] + "  ",end="")
+			print " " + randomCards[i] + "  ",
 			tmpCardset.remove(tmpCardset[index])
-	print("")
+	print ""
 	sleep(1)
 	analyseCards(randomCards)
 
 def choice(question,options,selection = 0): # selection prompt
-	print("") # so that \033[1A gets a fresh new line on *first* cycle
+	print "" # so that \033[1A gets a fresh new line on *first* cycle
 	while(True):
-		print("\033[1A" + question,end="")
+		print "\033[1A" + question,
 		for i in range(0,len(options)):
 			if(i==selection):
-				print(" \033[7m[" + str(options[i]) + "]\033[0m ",end="")
+				print " \033[7m[" + str(options[i]) + "]\033[0m ",
 			else:
-				print("  " + str(options[i]) + "  ",end="")
-		print("")
+				print "  " + str(options[i]) + "  ",
+		print ""
 
 		key = getch.getch()
 		if(key == "\n"):
@@ -209,9 +208,10 @@ def choice(question,options,selection = 0): # selection prompt
 					selection = selection + 1
 
 def end():
-	print("Thanks for playing! :)")
+	print "Thanks for playing! :)"
 	exit()
 
 ''' GAME LOOP '''
 
-gameLoop()
+if __name__ == '__main__':
+	gameLoop()

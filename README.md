@@ -3,7 +3,7 @@ pyker ![python logo](https://www.python.org/static/community_logos/python-powere
 
 ##### What and Why?
 
-**pyker** is a small video poker implementation written in Python (v3).
+**pyker** is a small video poker implementation written in Python (v2: pyker2, v3: pyker3).
 
 I was both bored and interesting in implementing a simple, small game.
 
